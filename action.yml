@@ -1,0 +1,42 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: action
+name: TruffleHog Secret Scan Code Action
+inputs:
+  token:
+    required: false
+    description: 'The token in order to connect authenticate with source repository (Ex: Github PAT).'
+  repoUrl:
+    required: false
+    description: 'The URL of the Git repository to scan.'  
+  branch:
+    required: true
+    description: 'The branch of the repository to scan.'
+  path:
+    required: false
+    description: 'The path of the directory to scan.'
+
+runs:
+  using: composite
+  steps:
+    - id: run-trufflehog-secret-scan-code
+      name: trufflehogsast
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/trufflehog-secret-actions:main-cbd21992f44cacc2e9370fa5cba3769774447919
+      shell: sh
+      env:
+        CONFIG_JSON: '{"metaInfo":{"repoUrl":"${{ inputs.repoUrl }}","branch":"${{ inputs.branch }}","token":"${{ inputs.token }}","path":"${{ inputs.path }}","toolName":"trufflehogsast"},"orchestratorInfo":{"assetType":"CODE","assetIdentifier":"${{ inputs.repoUrl || cloudbees.scm.repositoryUrl }}","profileIdentifier":"${{ inputs.branch || cloudbees.scm.branch }}"},"metaInformation":{"actor":"SCM-Bot","commit_id":"${{ cloudbees.scm.sha }}","tenent_info":"NA","scanner_type":"SAST"}}' 
+        RUN_ID: ${{ cloudbees.run_id }}
+        STEP_ID: ${{ step.internal.id }}
+        JOB_ID: ${{ job.id }}
+        DNS_URL: ${{ cloudbees.api.url }}
+        JWT_TOKEN: ${{ cloudbees.api.token }}
+      run: |
+        set -x
+        echo "RUN ID: ${{ cloudbees.run_id }}"
+        echo "Job ID: ${{ job.id }}"
+        echo "Step ID: ${{ step.internal.id }}"      
+        cd /app
+        ./trufflehog_secret_scan_app scan -t 'CODE' -c "${CONFIG_JSON}"
+ 
+
+       
+        
