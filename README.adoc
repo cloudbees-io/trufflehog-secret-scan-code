@@ -53,7 +53,7 @@ jobs:
   secret-scan:
     steps:
       - name: Run TruffleHog Secret SAST
-        uses: cloudbees-io/trufflehog-secret-actions
+        uses: cloudbees-io/trufflehog-secret-scan-code@v1
         with:
           token: ${{ secrets.TOKEN }}
           repoUrl: ${{ repositoryUrl }}
@@ -77,7 +77,7 @@ jobs:
         uses: cloudbees-io/checkout@v1
 
       - name: Run TruffleHog Secret SAST
-        uses: cloudbees-io/trufflehog-secret-actions
+        uses: cloudbees-io/trufflehog-secret-scan-code@v1
         with:
           branch: ${{ cloudbees.scm.branch }}
 ----
