@@ -1,7 +1,10 @@
-= TruffleHog Secret Scan Code Action
+= CloudBees action: Scan code with TruffleHog
 
-This Action integrates TruffleHog, a secret scanning tool, into the CI/CD pipeline to detect secrets and sensitive information in the codebase.
-This action provides flexibility by allowing users to either specify a repository URL to scan or scan the currently checked-out code. When given a repository URL, it examines the code directly from the specified repository. Alternatively, if no URL is provided, it defaults to scanning the code present in the local working directory. This dual functionality ensures comprehensive security checks can be performed on both remote and local codebases.
+Use this action to detect secrets and sensitive information in the codebase with TruffleHog, an open-source secret scanning tool.
+
+This action provides flexibility by allowing users to either scan a local codebase, or provide a URL to scan a remote repository.
+When a repository URL is specified, the TruffleHog action examines the code directly from the specified repository.
+If no URL is provided, the action scans the code present in the local working directory.
 
 == Inputs
 
@@ -22,37 +25,30 @@ This action provides flexibility by allowing users to either specify a repositor
 | `repoUrl`
 | string
 | No
-| The URL of the Git repository to scan. If provided, the scan will be performed against this repository. If not provided, the scan will be performed against the current repository.
+| The URL of the Git repository to scan.
+If `repoUrl` is not specified, the current repository is scanned.
 
 | `branch`
 | string
 | Yes
-| The branch of the repository to scan. In case of code scan against the current respository, this should be current branch.
+| The branch of the repository to scan.
+If `repoUrl` is not specified, this must be the current branch.
 
 | `path`
 | string
 | No
-| The path of the directory to scan. In case of code scan against custom directory, this should be path pointing to the custom directory. If not provided, the scan will be performed against standard cloudbees workspace directory.
+| The path of the directory to scan.
+If not specified, the standard CloudBees `workspace` directory is scanned.
 
 |===
 
-== Usage
+== Usage examples
 
-To use this action in your workflow, add a step that references it. Here is an example of a workflow that uses the "TruffleHog Secret SAST Action":
-
-* This example shows the usage of scan against given respository url
+In your YAML file, add:
 
 [source,yaml]
 ----
-on:
-  push:
-    branches:
-      - main    
-
-jobs:
-  secret-scan:
-    steps:
-      - name: Run TruffleHog Secret SAST
+      - name: Run TruffleHog code scan
         uses: cloudbees-io/trufflehog-secret-scan-code@v1
         with:
           token: ${{ secrets.TOKEN }}
@@ -60,23 +56,15 @@ jobs:
           branch: ${{ branch }}
 ----
 
-* This example shows the usage of scan against current checked out code in the pipeline
+In the following example, a local codebase is scanned:
 
 [source,yaml]
 ----
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  secret-scan:
     steps:
-     
-     - name: Get sourcecode
+      - name: Check out source code
         uses: cloudbees-io/checkout@v1
 
-      - name: Run TruffleHog Secret SAST
+      - name: Run TruffleHog secret scan on local source code
         uses: cloudbees-io/trufflehog-secret-scan-code@v1
         with:
           branch: ${{ cloudbees.scm.branch }}
@@ -89,5 +77,5 @@ link:https://opensource.org/license/mit/[MIT license].
 
 == References
 
-* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform-actions/latest/[using actions in CloudBees workflows].
-* Learn about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform/latest/[the CloudBees platform].
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions[using actions in CloudBees workflows].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees platform].
