@@ -14,6 +14,22 @@ inputs:
   path:
     required: false
     description: 'The path of the directory to scan.'
+  threshold-very-high:
+    required: false
+    default: 999
+    description: 'The threshold for very high severity. Build will be broken if vulnerabilities with very high severity exceeds this threshold.'
+  threshold-high:
+    required: false
+    default: 999
+    description: 'The threshold for high severity. Build will be broken if vulnerabilities with high severity exceeds this threshold.'
+  threshold-medium:
+    required: false
+    default: 999
+    description: 'The threshold for medium severity. Build will be broken if vulnerabilities with medium severity exceeds this threshold.'
+  threshold-low:
+    required: false
+    default: 999  
+    description: 'The threshold for low severity. Build will be broken if vulnerabilities with low severity exceeds this threshold.'
 
 runs:
   using: composite
@@ -24,6 +40,7 @@ runs:
       shell: sh
       env:
         CONFIG_JSON: '{"metaInfo":{"repoUrl":"${{ inputs.repoUrl }}","branch":"${{ inputs.branch }}","token":"${{ inputs.token }}","path":"${{ inputs.path }}","toolName":"trufflehogsast"},"orchestratorInfo":{"assetType":"CODE","assetIdentifier":"${{ inputs.repoUrl || cloudbees.scm.repositoryUrl }}","profileIdentifier":"${{ inputs.branch || cloudbees.scm.branch }}"},"metaInformation":{"actor":"SCM-Bot","commit_id":"${{ cloudbees.scm.sha }}","tenent_info":"NA","scanner_type":"SAST"}}' 
+        THRESHOLD_JSON: '{"veryHigh":${{ inputs.threshold-very-high }},"high":${{ inputs.threshold-high }},"medium":${{ inputs.threshold-medium }},"low":${{ inputs.threshold-low }}}'
         RUN_ID: ${{ cloudbees.run_id }}
         STEP_ID: ${{ step.internal.id }}
         JOB_ID: ${{ job.id }}
@@ -35,7 +52,7 @@ runs:
         echo "Job ID: ${{ job.id }}"
         echo "Step ID: ${{ step.internal.id }}"      
         cd /app
-        ./trufflehog_secret_scan_app scan -t 'CODE' -c "${CONFIG_JSON}"
+        ./trufflehog_secret_scan_app scan -t 'CODE' -c "${CONFIG_JSON}" -r "${THRESHOLD_JSON}"
  
 
        
