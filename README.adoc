@@ -55,9 +55,9 @@ If not specified, the standard CloudBees `workspace` directory is scanned.
 
 == Usage examples
 
-Add to your YAML file.
+Add any of the below examples to your YAML file.
 
-Scan a repository branch:
+To scan a repository branch:
 
 [source,yaml]
 ----
@@ -69,7 +69,7 @@ Scan a repository branch:
           branch: ${{ branch }}
 ----
 
-Scan a local codebase:
+To scan a local codebase:
 
 [source,yaml]
 ----
@@ -83,7 +83,7 @@ Scan a local codebase:
           branch: ${{ cloudbees.scm.branch }}
 ----
 
-Scan the entire history of a local codebase branch:
+To scan the entire history of a local codebase branch:
 
 [source,yaml]
 ----
@@ -114,19 +114,22 @@ In the following example, if there are more than three very high severity vulner
           threshold-very-high: 3
 ----
 
-Scan a local codebase branch starting from a specified commit hash:
+In the following example, a local codebase is scanned from a specified commit hash.
+Fetching the entire history is required for this usage.
 
 [source,yaml]
 ----
 
       - name: Check out source code
         uses: cloudbees-io/checkout@v1
+        with:
+        fetch-depth: 0 # Fetch the full history
 
       - name: Run TruffleHog starting from commit
         uses: cloudbees-io/trufflehog-secret-scan-code@v1
         with:
           branch: ${{ cloudbees.scm.branch }}
-          since-commit: ${{ commit.hash }}
+          since-commit: ${{ commit.hash }} # Scan starting point
           threshold-very-high: 3
 ----
 
@@ -136,31 +139,31 @@ Fetching the entire history is required for this usage.
 [source,yaml]
 ----
 
-     - name: Check out source code
-       uses: cloudbees-io/checkout@v1
-       with:
+      - name: Check out source code
+        uses: cloudbees-io/checkout@v1
+        with:
         fetch-depth: 0 # Fetch the full history
 
-     - name: Run TruffleHog scan since a commit
-       uses: cloudbees-io/trufflehog-secret-scan-code@v1
-       with:
-         branch: ${{ cloudbees.scm.branch }} # Current branch
-         since-commit: "main" # Scan starting point
-         threshold-very-high: 3
+      - name: Run TruffleHog scan since a commit
+        uses: cloudbees-io/trufflehog-secret-scan-code@v1
+        with:
+          branch: ${{ cloudbees.scm.branch }} # Current branch
+          since-commit: "main" # Scan starting point
+          threshold-very-high: 3
 ----
 
-Scan a given repository from a specified commit hash:
+To scan a given repository from a specified commit hash:
 
 [source,yaml]
 ----
 
-     - name: Run TruffleHog code scan on a repo
-       uses: cloudbees-io/trufflehog-secret-scan-code@v1
-       with:
-         token: ${{ secrets.TOKEN }}
-         repoUrl: ${{ repositoryUrl }}
-         branch: ${{ branch }}
-         since-commit: ${{ commit.hash }}
+      - name: Run TruffleHog code scan on a repo
+        uses: cloudbees-io/trufflehog-secret-scan-code@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          repoUrl: ${{ repositoryUrl }}
+          branch: ${{ branch }}
+          since-commit: ${{ commit.hash }} # Scan starting point
 ----
 
 NOTE: In the example above, if both the `since-commit` and `branch` parameters are set to the same value, the scan detects no changes.
