@@ -51,6 +51,7 @@ runs:
         JWT_TOKEN: ${{ cloudbees.api.token }}
       run: |
         set -x
+        git config --global --add safe.directory '*'
         echo "RUN ID: ${{ cloudbees.run_id }}"
         echo "Job ID: ${{ job.id }}"
         echo "Step ID: ${{ step.internal.id }}"      
