@@ -39,7 +39,7 @@ runs:
   steps:
     - id: run-trufflehog-secret-scan-code
       name: trufflehogsast
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/trufflehog-secret-actions:main-6c0325403da97a6967556efdbf78b7ccdadc2f8c
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/trufflehog-secret-actions:main-743dd107fa541e3282333b332e17e95e09651456
       shell: sh
       env:
         CONFIG_JSON: '{"metaInfo":{"repoUrl":"${{ inputs.repoUrl }}","branch":"${{ inputs.branch }}","token":"${{ inputs.token }}","path":"${{ inputs.path }}","sinceCommit":"${{ inputs.since-commit }}","toolName":"trufflehogsast"},"orchestratorInfo":{"assetType":"CODE","assetIdentifier":"${{ inputs.repoUrl || cloudbees.scm.repositoryUrl }}","profileIdentifier":"${{ inputs.branch || cloudbees.scm.branch }}"},"metaInformation":{"actor":"SCM-Bot","commit_id":"${{ cloudbees.scm.sha }}","tenent_info":"NA","scanner_type":"SAST"}}' 
