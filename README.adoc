@@ -45,6 +45,16 @@ If not specified, the standard CloudBees `workspace` directory is scanned.
 | No
 | The commit hash or branch name to start the scan from.
 
+| `only-verified`
+| string
+| No
+| Enable verified flag to scan only verified secrets (Default set to true).
+
+Note:  If only-verified is set to true, Trufflelog tool may utilize an external third-party api to verify the secrets detected. 
+Customers concerned about security implications involving third-party api calls should set the only-verified value to false which returns all the secrets without verification and might contain false positives. 
+
+Refer the documentation regarding the credential verification link:https://github.com/trufflesecurity/trufflehog?tab=readme-ov-file#what-is-credential-verification[here]
+
 | `threshold-very-high`
 | integer
 | No
@@ -168,6 +178,19 @@ To scan a given repository from a specified commit hash:
 
 NOTE: In the example above, if both the `since-commit` and `branch` parameters are set to the same value, the scan detects no changes.
 
+To scan a repository branch with only-verified set false :
+
+[source,yaml]
+----
+      - name: Run TruffleHog code scan
+        uses: cloudbees-io/trufflehog-secret-scan-code@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          repoUrl: ${{ repositoryUrl }}
+          branch: ${{ branch }}
+          only-verified: false
+      
+----
 == License
 
 This code is made available under the 
