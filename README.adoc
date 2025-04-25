@@ -50,8 +50,10 @@ If not specified, the standard CloudBees `workspace` directory is scanned.
 | No
 | Enable verified flag to scan only verified secrets (Default set to true).
 
-Note:  If only-verified is set to false, Trufflelog may utilize an external third-party tool to scan unverified results. 
-Customers concerned about security implications involving third-party tools should set the only-verified value to true.
+Note:  If only-verified is set to true, Trufflelog tool may utilize an external third-party api to verify the secrets detected. 
+Customers concerned about security implications involving third-party api calls should set the only-verified value to false which returns all the secrets without verification and might contain false positives. 
+
+Refer the documentation regarding the credential verification link:https://github.com/trufflesecurity/trufflehog?tab=readme-ov-file#what-is-credential-verification[here]
 
 | `threshold-very-high`
 | integer
