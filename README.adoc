@@ -45,6 +45,14 @@ If not specified, the standard CloudBees `workspace` directory is scanned.
 | No
 | The commit hash or branch name to start the scan from.
 
+| `only-verified`
+| string
+| No
+| Enable verified flag to scan only verified secrets (Default set to true).
+
+Note:  If only-verified is set to false, Trufflelog may utilize an external third-party tool to scan unverified results. 
+Customers concerned about security implications involving third-party tools should set the only-verified value to true.
+
 | `threshold-very-high`
 | integer
 | No
