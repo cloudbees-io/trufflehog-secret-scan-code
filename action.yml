@@ -46,7 +46,7 @@ runs:
       uses: docker://public.ecr.aws/l7o7z1g8/actions/trufflehog-secret-actions:main-9bc11a808dbb3865315bf6bb7391477b7e1af0f4
       shell: sh
       env:
-        CONFIG_JSON: '{"metaInfo":{"repoUrl":"${{ inputs.repoUrl }}","branch":"${{ inputs.branch }}","token":"${{ inputs.token }}","path":"${{ inputs.path }}","sinceCommit":"${{ inputs.since-commit }}","toolName":"trufflehogsast"},"orchestratorInfo":{"assetType":"CODE","assetIdentifier":"${{ inputs.repoUrl || cloudbees.scm.repositoryUrl }}","profileIdentifier":"${{ inputs.branch || cloudbees.scm.branch }}"},"metaInformation":{"actor":"SCM-Bot","commit_id":"${{ cloudbees.scm.sha }}","tenent_info":"NA","scanner_type":"SAST"}}' 
+        CONFIG_JSON: '{"metaInfo":{"repoUrl":"${{ inputs.repoUrl }}","branch":"${{ inputs.branch }}","token":"${{ inputs.token }}","path":"${{ inputs.path }}","sinceCommit":"${{ inputs.since-commit }}","onlyVerified":${{ inputs.only-verified }},"toolName":"trufflehogsast"},"orchestratorInfo":{"assetType":"CODE","assetIdentifier":"${{ inputs.repoUrl || cloudbees.scm.repositoryUrl }}","profileIdentifier":"${{ inputs.branch || cloudbees.scm.branch }}"},"metaInformation":{"actor":"SCM-Bot","commit_id":"${{ cloudbees.scm.sha }}","tenent_info":"NA","scanner_type":"SAST"}}' 
         THRESHOLD_JSON: '{"veryHigh":${{ inputs.threshold-very-high }},"high":${{ inputs.threshold-high }},"medium":${{ inputs.threshold-medium }},"low":${{ inputs.threshold-low }}}'
         RUN_ID: ${{ cloudbees.run_id }}
         STEP_ID: ${{ step.internal.id }}
