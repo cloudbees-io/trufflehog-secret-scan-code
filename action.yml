@@ -17,6 +17,10 @@ inputs:
   since-commit:
     required: false
     description: 'The commit hash or branch name to start the scan from.'
+  only-verified:
+    required: false
+    default: 'true'
+    description: 'Enable verified flag to scan only verified secrets.'
   threshold-very-high:
     required: false
     default: 999
