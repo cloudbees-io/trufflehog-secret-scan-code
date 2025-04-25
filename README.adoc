@@ -176,6 +176,19 @@ To scan a given repository from a specified commit hash:
 
 NOTE: In the example above, if both the `since-commit` and `branch` parameters are set to the same value, the scan detects no changes.
 
+To scan a repository branch with only-verified set false :
+
+[source,yaml]
+----
+      - name: Run TruffleHog code scan
+        uses: cloudbees-io/trufflehog-secret-scan-code@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          repoUrl: ${{ repositoryUrl }}
+          branch: ${{ branch }}
+          only-verified: false
+      
+----
 == License
 
 This code is made available under the 
