@@ -182,7 +182,7 @@ To scan a given repository from a specified commit hash:
 
 NOTE: In the example above, if both the `since-commit` and `branch` parameters are set to the same value, the scan detects no changes.
 
-To scan a repository branch with `only-verified` set to false, which may return false positives:
+To scan a repository branch with `only-verified` set to false, which might return false positives:
 
 [source,yaml]
 ----
