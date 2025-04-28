@@ -45,23 +45,27 @@ If not specified, the standard CloudBees `workspace` directory is scanned.
 | No
 | The commit hash or branch name to start the scan from.
 
-| `only-verified`
-| string
-| No
-| Enable verified flag to scan only verified secrets (Default set to true).
-
-Note:  If only-verified is set to true, Trufflelog tool may utilize an external third-party api to verify the secrets detected. 
-Customers concerned about security implications involving third-party api calls should set the only-verified value to false which returns all the secrets without verification and might contain false positives. 
-
-Refer the documentation regarding the credential verification link:https://github.com/trufflesecurity/trufflehog?tab=readme-ov-file#what-is-credential-verification[here]
-
 | `threshold-very-high`
 | integer
 | No
 | The number threshold of very high severity vulnerabilities at which the build is broken.
 
+| `only-verified`
+| String
+| No
+| Enables the verified flag to scan only verified secrets.
+The default is `true`.^<<footnote,[1]>>^
+
 |===
 
+[#footnote]
+[IMPORTANT]
+====
+^[1]^ If `only-verified` is set to true, The TruffleHog tool may utilize an external third-party API to verify the secrets detected.
+
+Customers concerned about security implications involving third-party API calls should set the `only-verified` value to false, which returns all the secrets without verification and might contain false positives.
+Refer to the link:https://github.com/trufflesecurity/trufflehog?tab=readme-ov-file#what-is-credential-verification[TruffleHog credential verification documentation] for more information.
+====
 
 == Usage examples
 
